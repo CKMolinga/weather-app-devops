@@ -1,0 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 100%;
+  /* transition: 0.25s; */
+}

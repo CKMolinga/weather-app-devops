@@ -38,6 +38,30 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      body {
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+
+        /* Added background-repeat and set it to no-repeat to help prevent the images from duplicating. Added !important to 
+         * background-repeat and background-size in order to place importance on the background images not repeating and
+         * to cover the entire webpage.
+         */
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-attachment: fixed;
+
+        height: 100vh;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          height: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
     <ul class="navbar">
