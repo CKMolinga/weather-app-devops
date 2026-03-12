@@ -1,0 +1,61 @@
+name: Weather App CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: |
+          docker build -t weather-app .
+
+      - name: Run Container Test
+        run: |
+          docker run -d -p 8080:80 --name test-container weather-app
+          sleep 5
+          curl http://localhost:8080
+
+      - name: Stop Test Container
+        run: |
+          docker stop test-container
+          docker rm test-container
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy to Azure VM
+        uses: appleboy/ssh-action@master
+
+        with:
+          host: ${{ secrets.AZURE_HOST }}
+          username: ${{ secrets.AZURE_USER }}
+          key: ${{ secrets.AZURE_SSH_KEY }}
+
+          script: |
+
+            cd weather-app || git clone https://github.com/YOUR_USERNAME/weather-app.git
+
+            cd weather-app
+
+            git pull
+
+            docker stop weather-container || true
+            docker rm weather-container || true
+
+            docker build -t weather-app .
+
+            docker run -d -p 80:80 --name weather-container weather-app
