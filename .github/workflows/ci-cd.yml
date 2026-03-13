@@ -30,32 +30,32 @@ jobs:
           docker stop test-container
           docker rm test-container
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
 
-    if: github.ref == 'refs/heads/main'
+  #   if: github.ref == 'refs/heads/main'
 
-    steps:
-      - name: Deploy to Azure VM
-        uses: appleboy/ssh-action@master
+  #   steps:
+  #     - name: Deploy to Azure VM
+  #       uses: appleboy/ssh-action@master
 
-        with:
-          host: ${{ secrets.AZURE_HOST }}
-          username: ${{ secrets.AZURE_USER }}
-          key: ${{ secrets.AZURE_SSH_KEY }}
+  #       with:
+  #         host: ${{ secrets.AZURE_HOST }}
+  #         username: ${{ secrets.AZURE_USER }}
+  #         key: ${{ secrets.AZURE_SSH_KEY }}
 
-          script: |
+  #         script: |
 
-            cd weather-app || git clone https://github.com/YOUR_USERNAME/weather-app.git
+  #           cd weather-app || git clone https://github.com/YOUR_USERNAME/weather-app.git
 
-            cd weather-app
+  #           cd weather-app
 
-            git pull
+  #           git pull
 
-            docker stop weather-container || true
-            docker rm weather-container || true
+  #           docker stop weather-container || true
+  #           docker rm weather-container || true
 
-            docker build -t weather-app .
+  #           docker build -t weather-app .
 
-            docker run -d -p 80:80 --name weather-container weather-app
+  #           docker run -d -p 80:80 --name weather-container weather-app
