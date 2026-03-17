@@ -201,7 +201,6 @@ ul {
   color: #fff;
 }
 
-
 .daily-forecast-card {
   display: inline-block;
   border-radius: 10px;
@@ -238,4 +237,91 @@ ul {
 .max-daily-forecast {
   font-weight: bold;
   font-size: 25px;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    display: none;
+  }
+
+  .mobile-navbar {
+    display: block;
+  }
+
+  .additionals-first-row,
+  .additionals-second-row {
+    line-height: 27.5px;
+    margin: 0;
+  }
+
+  .additionals-first-row span,
+  .additionals-second-row span {
+    display: none;
+  }
+
+  .daily-forecast-card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .daily-forecast .daily-forecast-label {
+    background: lightgrey;
+    color: #252525;
+    padding: 10px;
+    width: 75%;
+    border-radius: 50px;
+    margin: auto;
+  }
+
+  #weatherType {
+    margin-top: 0;
+  }
+}
+
+.daily-forecast-card {
+  display: inline-block;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0);
+  width: 125px;
+  height: 162.5px;
+  padding: 2.5px 10px;
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+  color: #fff;
+}
+
+.daily-forecast-card .daily-forecast-logo {
+  font-size: 37.5px;
+  margin: -10px -10px;
+}
+
+.daily-forecast-card .daily-forecast-date {
+  font-size: 17.5px;
+  margin-top: 12.5px;
+  font-weight: 400;
+}
+
+.daily-forecast-card .daily-forecast-logo {
+  margin-top: -15px;
+}
+
+.daily-forecast-card .weather-type-daily-forecast {
+  font-weight: normal;
+  margin-top: 2.5px;
+}
+
+.max-min-temperature-daily-forecast {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.max-daily-forecast {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.min-daily-forecast {
+  font-size: 15px;
+  opacity: 0.7;
 }
