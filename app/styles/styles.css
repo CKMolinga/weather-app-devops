@@ -183,3 +183,59 @@ ul {
   padding: 2.5px 10px;
 }
 
+.separator {
+  width: 25%;
+  margin: auto;
+  height: 7.5px;
+  background: lightgrey;
+  border-radius: 50px;
+}
+
+.daily-forecast {
+  padding: 25px;
+  margin-top: -25px;
+  text-align: center;
+}
+
+.daily-forecast .daily-forecast-label {
+  color: #fff;
+}
+
+
+.daily-forecast-card {
+  display: inline-block;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0);
+  width: 125px;
+  height: 162.5px;
+  padding: 2.5px 10px;
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+  color: #fff;
+}
+
+.daily-forecast-card .daily-forecast-logo {
+  font-size: 37.5px;
+  margin: -10px -10px;
+}
+
+.daily-forecast-card .daily-forecast-date {
+  font-size: 17.5px;
+  margin-top: 12.5px;
+  font-weight: 400;
+}
+
+.daily-forecast-card .daily-forecast-logo {
+  margin-top: -15px;
+  margin-bottom: 2.5px;
+}
+
+.daily-forecast-card .weather-type-daily-forecast {
+  font-weight: normal;
+  margin-top: 2.5px;
+}
+
+.max-daily-forecast {
+  font-weight: bold;
+  font-size: 25px;
+}
