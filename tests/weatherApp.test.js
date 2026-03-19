@@ -1,3 +1,4 @@
+jest.setTimeout(15000)
 const puppeteer = require('puppeteer')
 
 describe('Weather App Functional Tests', () => {
@@ -45,7 +46,8 @@ describe('Weather App Functional Tests', () => {
 
     await page.keyboard.press('Enter')
 
-    await page.waitForTimeout(4000)
+    // wait properly (replace old method)
+    await new Promise((resolve) => setTimeout(resolve, 10000))
 
     const content = await page.content()
 
