@@ -38,7 +38,7 @@ jobs:
           sed 's/__API_KEY__/${{ secrets.WEATHER_API_KEY }}/g' app/config.template.js > app/config.js
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 18
 
