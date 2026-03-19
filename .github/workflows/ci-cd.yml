@@ -4,35 +4,58 @@ on:
   push:
     branches: [main]
 
-  pull_request:
-    branches: [main]
-
 jobs:
+  # ----------------
+  # BUILD
+  # ----------------
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v6
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Inject API key
         run: |
           sed 's/__API_KEY__/${{ secrets.WEATHER_API_KEY }}/g' app/config.template.js > app/config.js
 
       - name: Build Docker Image
-        run: |
-          docker build -t weather-app .
+        run: docker build -t weather-app .
 
-      - name: Run Container Test
-        run: |
-          docker run -d -p 8080:80 --name test-container weather-app
-          sleep 5
-          curl http://localhost:8080
+  # ----------------
+  # TEST
+  # ----------------
+  test:
+    needs: build
+    runs-on: ubuntu-latest
 
-      - name: Stop Test Container
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Inject API key
         run: |
-          docker stop test-container
-          docker rm test-container
+          sed 's/__API_KEY__/${{ secrets.WEATHER_API_KEY }}/g' app/config.template.js > app/config.js
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Docker Image
+        run: docker build -t weather-app .
+
+      - name: Run container
+        run: docker run -d -p 8080:80 --name weather-test weather-app
+
+      - name: Run tests
+        run: npm test
+
+      - name: Stop container
+        run: docker stop weather-test
 
   # deploy:
   #   needs: build
