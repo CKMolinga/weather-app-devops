@@ -57,32 +57,36 @@ jobs:
       - name: Stop container
         run: docker stop weather-test
 
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
 
-  #   if: github.ref == 'refs/heads/main'
 
-  #   steps:
-  #     - name: Deploy to Azure VM
-  #       uses: appleboy/ssh-action@master
+  # ----------------
+  # DEPLOY
+  # ----------------
+  deploy:
+  needs: test
+  runs-on: ubuntu-latest
 
-  #       with:
-  #         host: ${{ secrets.AZURE_HOST }}
-  #         username: ${{ secrets.AZURE_USER }}
-  #         key: ${{ secrets.AZURE_SSH_KEY }}
+  steps:
+    - name: Deploy to Azure VM
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_SSH_KEY }}
+        envs: WEATHER_API_KEY
 
-  #         script: |
+        script: |
+          docker stop weather-app || true
+          docker rm weather-app || true
+          docker rmi weather-app || true
 
-  #           cd weather-app || git clone https://github.com/YOUR_USERNAME/weather-app.git
+          rm -rf weather-app-repo
+          git clone https://github.com/CKMolinga/weather-app-devops.git weather-app-repo
 
-  #           cd weather-app
+          cd weather-app-repo
 
-  #           git pull
+          sed "s/__API_KEY__/${WEATHER_API_KEY}/g" app/config.template.js > app/config.js
 
-  #           docker stop weather-container || true
-  #           docker rm weather-container || true
+          docker build -t weather-app .
 
-  #           docker build -t weather-app .
-
-  #           docker run -d -p 80:80 --name weather-container weather-app
+          docker run -d -p 80:80 --name weather-app weather-app
