@@ -73,18 +73,41 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           envs: WEATHER_API_KEY
 
+          # script: |
+          #   docker stop weather-app || true
+          #   docker rm weather-app || true
+          #   docker rmi weather-app || true
+
+          #   rm -rf weather-app-repo
+          #   git clone https://github.com/CKMolinga/weather-app-devops.git weather-app-repo
+
+          #   cd weather-app-repo
+
+          #   sed "s/__API_KEY__/${WEATHER_API_KEY}/g" app/config.template.js > app/config.js
+
+          #   docker build -t weather-app .
+
+          #   docker run -d -p 80:80 --name weather-app weather-app
+
           script: |
-            docker stop weather-app || true
-            docker rm weather-app || true
+            # Stop and remove ALL containers (including old ones)
+            docker stop $(docker ps -q) || true
+            docker rm $(docker ps -aq) || true 
+
+            # Remove old image
             docker rmi weather-app || true
 
+            # Clone latest code
             rm -rf weather-app-repo
             git clone https://github.com/CKMolinga/weather-app-devops.git weather-app-repo
 
             cd weather-app-repo
 
+            # Inject API key
             sed "s/__API_KEY__/${WEATHER_API_KEY}/g" app/config.template.js > app/config.js
 
+            # Build image
             docker build -t weather-app .
 
+            # Run container on port 80
             docker run -d -p 80:80 --name weather-app weather-app
