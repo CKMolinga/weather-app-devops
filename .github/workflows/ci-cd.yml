@@ -104,7 +104,7 @@ jobs:
             cd weather-app-repo
 
             # Inject API key
-            sed "s/__API_KEY__/${WEATHER_API_KEY}/g" app/config.template.js > app/config.js
+            sed 's/__API_KEY__/${{ secrets.WEATHER_API_KEY }}/g' app/config.template.js > app/config.js
 
             # Build image
             docker build -t weather-app .
